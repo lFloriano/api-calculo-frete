@@ -5,7 +5,7 @@ public record FreteExpresso : Frete
 {
     protected override decimal TaxaFixa => 10;
 
-    public FreteExpresso(decimal pesoEmKg, decimal distanciaEmKm) : base(ModalidadeFrete.Expresso, pesoEmKg, distanciaEmKm) { }
+    public FreteExpresso(decimal pesoEmKg, decimal distanciaEmKm) : base(pesoEmKg, distanciaEmKm) { }
 
     public override PrazoEntrega PrazoEntrega => new PrazoEntrega(1, 3);
 

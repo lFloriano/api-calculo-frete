@@ -10,6 +10,7 @@ namespace CalculoFrete.Api.Configurations
         {
             services.AddScoped<IRepository<Pedido>, InMemoryRepository<Pedido>>();
             services.AddScoped<IPedidoService, PedidoService>();
+            services.AddScoped<IFreteService, FreteService>();
         }
     }
 }

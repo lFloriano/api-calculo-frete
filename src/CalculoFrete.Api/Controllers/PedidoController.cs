@@ -29,22 +29,21 @@ namespace CalculoFrete.Api.Controllers
             if (pedido == null)
                 return NotFound();
 
-            return Ok(pedido);
+            return Ok(_mapper.Map<ConsultarPedidoVm>(pedido));
         }
 
         [HttpGet()]
         [ProducesResponseType(typeof(IEnumerable<ConsultarPedidoVm>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(IEnumerable<ConsultarPedidoVm>), StatusCodes.Status204NoContent)]
-        public async Task<IActionResult> Listar()
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> ObterTodos()
         {
             var pedidos = await _pedidoService.ObterTodosAsync();
 
             if (pedidos == null || !pedidos.Any())
                 return NoContent();
 
-            return Ok(pedidos);
+            return Ok(_mapper.Map<IEnumerable<ConsultarPedidoVm>>(pedidos));
         }
-
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -60,7 +59,7 @@ namespace CalculoFrete.Api.Controllers
             return CreatedAtAction(nameof(ObterPorId), new { id = pedido.Id }, pedido);
         }
 
-        [HttpPut("{id:guid}")]
+        [HttpPatch("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Atualizar([FromRoute] Guid id, [FromBody] AtualizarPedidoVm model)
@@ -70,8 +69,8 @@ namespace CalculoFrete.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            var pedido = await _pedidoService.Atualizar(_mapper.Map<Pedido>(model));
-            return Ok(pedido);
+            var pedido = await _pedidoService.Atualizar(model.Id, model.NovoCep);
+            return Ok(_mapper.Map<ConsultarPedidoVm>(pedido));
         }
 
         [HttpDelete("{id:guid}")]
@@ -81,6 +80,22 @@ namespace CalculoFrete.Api.Controllers
         {
             await _pedidoService.Remover(id);
             return Ok();
+        }
+
+        [HttpPost("calcular-frete")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> CalcularFrete([FromBody] AdicionarPedidoVm model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(model);
+            }
+
+            var pedido = _mapper.Map<Pedido>(model);
+            var freteCalculado = await _pedidoService.CalcularFreteDoPedido(pedido);
+
+            return Ok(freteCalculado);
         }
     }
 }

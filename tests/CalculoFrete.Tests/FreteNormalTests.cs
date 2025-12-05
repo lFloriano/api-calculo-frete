@@ -36,10 +36,10 @@ namespace CalculoFrete.Tests
             var distanciaEmKm = -99M;
 
             //act/assert
-            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            Assert.Throws<ArgumentOutOfRangeException>((Action)(() =>
             {
                 var frete = new FreteNormal(pesoEmKg, distanciaEmKm);
-            });
+            }));
         }
 
         [Fact]
@@ -51,10 +51,10 @@ namespace CalculoFrete.Tests
             var distanciaEmKm = 20.0M;
 
             //act/assert
-            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            Assert.Throws<ArgumentOutOfRangeException>((Action)(() =>
             {
                 var frete = new FreteNormal(pesoEmKg, distanciaEmKm);
-            });
+            }));
         }
     }
 }

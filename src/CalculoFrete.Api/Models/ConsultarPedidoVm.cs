@@ -1,6 +1,14 @@
-﻿namespace CalculoFrete.Api.Models
+﻿using CalculoFrete.Domain;
+using CalculoFrete.Domain.ValueObjects;
+
+namespace CalculoFrete.Api.Models
 {
     public record ConsultarPedidoVm
     {
+        public Guid ClienteId { get; set; }
+        public Guid EnderecoEntregaId { get; set; }
+        public decimal ValorFrete { get; set; }
+        public Cep CepDestino { get; set; }
+        public IReadOnlyCollection<ConsultarItemPedidoVm> Itens { get; set; }
     }
 }

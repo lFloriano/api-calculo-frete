@@ -1,18 +1,14 @@
-﻿using CalculoFrete.Domain.Enums;
-
-namespace CalculoFrete.Domain.ValueObjects
+﻿namespace CalculoFrete.Domain.ValueObjects
 {
     public abstract record Frete
     {
-        protected Frete(ModalidadeFrete modalidadeFrete, decimal pesoEmKg, decimal distanciaEmKm)
+        protected Frete(decimal pesoEmKg, decimal distanciaEmKm)
         {
             Validar(pesoEmKg, distanciaEmKm);
-            ModalidadeFrete = modalidadeFrete;
             PesoEmKg = pesoEmKg;
             DistanciaEmKm = distanciaEmKm;
         }
 
-        public ModalidadeFrete ModalidadeFrete { get; }
         public decimal PesoEmKg { get; }
         public decimal DistanciaEmKm { get; }
         protected abstract decimal TaxaFixa { get; }

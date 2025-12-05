@@ -1,16 +1,14 @@
-﻿using CalculoFrete.Domain.Enums;
-
-namespace CalculoFrete.Domain.ValueObjects
+﻿namespace CalculoFrete.Domain.ValueObjects
 {
     public record FreteAgendado : Frete
     {
         public FreteAgendado(
             decimal pesoEmKg,
             decimal distanciaEmKm,
-            DateOnly dataAgendamento) : base(ModalidadeFrete.Agendado, pesoEmKg, distanciaEmKm)
+            DateOnly? dataAgendamento) : base(pesoEmKg, distanciaEmKm)
         {
             ValidarData(dataAgendamento);
-            DataAgendamento = dataAgendamento;
+            DataAgendamento = dataAgendamento.Value;
         }
 
         protected override decimal TaxaFixa => 7;
@@ -27,10 +25,11 @@ namespace CalculoFrete.Domain.ValueObjects
 
         public override decimal Valor => (PesoEmKg * 1.5M) + (DistanciaEmKm * 0.6M) + TaxaFixa;
 
-        private void ValidarData(DateOnly dataAgendamento)
+        private void ValidarData(DateOnly? dataAgendamento)
         {
             var dataAtual = DateOnly.FromDateTime(DateTime.Now);
-            ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(dataAgendamento, dataAtual, "Data do Agendamento");
+            ArgumentNullException.ThrowIfNull(dataAgendamento);
+            ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(dataAgendamento.Value, dataAtual, "Data do Agendamento");
         }
     }
 }

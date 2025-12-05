@@ -1,14 +1,21 @@
-﻿using CalculoFrete.Domain.ValueObjects;
+﻿using CalculoFrete.Core.Domain;
+using CalculoFrete.Domain.ValueObjects;
 
 namespace CalculoFrete.Domain
 {
-    public class Produto
+    public class Produto : Entity
     {
-        public Guid Id { get; set; }
-        public string Nome { get; set; }
-        public decimal Peso { get; set; }
-        public Cep CepCentroDistribuicao { get; set; }
+        public Produto(string nome, decimal peso, Cep cepCentroDistribuicao)
+        {
+            Nome = nome;
+            Peso = peso;
+            CepCentroDistribuicao = cepCentroDistribuicao;
+        }
 
-        //Demais propriedade foram omitidas por não serem relevantes ao calculo de frete
+        public string Nome { get; private set; }
+        public decimal Peso { get; private set; }
+        public Cep CepCentroDistribuicao { get; private set; }
+
+        //Demais propriedades foram omitidas por não serem relevantes ao desafio tecnico
     }
 }

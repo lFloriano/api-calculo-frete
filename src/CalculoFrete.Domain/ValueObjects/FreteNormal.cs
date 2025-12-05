@@ -6,7 +6,7 @@ namespace CalculoFrete.Domain.ValueObjects
     {
         protected override decimal TaxaFixa => 5;
 
-        public FreteNormal(decimal pesoEmKg, decimal distanciaEmKm) : base(ModalidadeFrete.Normal, pesoEmKg, distanciaEmKm) { }
+        public FreteNormal(decimal pesoEmKg, decimal distanciaEmKm) : base(pesoEmKg, distanciaEmKm) { }
 
         public override decimal Valor => (PesoEmKg * 1.2M) + (DistanciaEmKm * 0.5M) + TaxaFixa;
 

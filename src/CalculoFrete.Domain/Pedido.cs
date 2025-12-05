@@ -1,4 +1,5 @@
 ﻿using CalculoFrete.Core.Domain;
+using CalculoFrete.Domain.ValueObjects;
 
 namespace CalculoFrete.Domain
 {
@@ -6,15 +7,21 @@ namespace CalculoFrete.Domain
     {
         private List<ItemPedido> _items;
 
-        public Pedido()
+        public Pedido(Guid clienteId, Guid enderecoEntregaId)
         {
             _items = new List<ItemPedido>();
+            ClienteId = clienteId;
         }
 
         public Guid ClienteId { get; private set; }
-        public Guid EnderecoEntregaId { get; private set; }
-        public EnderecoEntrega? EnderecoEntrega { get; private set; }
-        public IReadOnlyCollection<ItemPedido> Items => _items.AsReadOnly();
+        public decimal ValorFrete => Itens.Sum(x => x.Frete.Valor);
+        public Cep CepDestino { get; private set; }
+        public IReadOnlyCollection<ItemPedido> Itens => _items.AsReadOnly();
+
+        public void AtualizarCep(Cep novoCep)
+        {
+            CepDestino = novoCep ?? throw new ArgumentNullException(nameof(Cep));
+        }
 
     }
 }

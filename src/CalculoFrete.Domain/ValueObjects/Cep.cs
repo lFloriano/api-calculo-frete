@@ -2,6 +2,7 @@
 {
     public class Cep
     {
-        //TODO:
+        //Classe simplificada para evitar complexidade desnecessária
+        public string Numero { get; set; } = string.Empty;
     }
 }
