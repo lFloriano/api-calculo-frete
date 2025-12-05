@@ -7,13 +7,7 @@ public record FreteExpresso : Frete
 
     public FreteExpresso(decimal pesoEmKg, decimal distanciaEmKm) : base(ModalidadeFrete.Expresso, pesoEmKg, distanciaEmKm) { }
 
-    protected override void CalcularPrazoEntrega()
-    {
-        PrazoEntrega = new PrazoEntrega(1, 3);
-    }
+    public override PrazoEntrega PrazoEntrega => new PrazoEntrega(1, 3);
 
-    protected override void CalcularValor(decimal pesoEmKg, decimal distanciaemKm)
-    {
-        Valor = (pesoEmKg * 2M) + (distanciaemKm * 0.8M) + TaxaFixa;
-    }
+    public override decimal Valor => (PesoEmKg * 2M) + (DistanciaEmKm * 0.8M) + TaxaFixa;
 }

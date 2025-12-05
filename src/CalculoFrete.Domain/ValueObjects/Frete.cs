@@ -7,19 +7,17 @@ namespace CalculoFrete.Domain.ValueObjects
         protected Frete(ModalidadeFrete modalidadeFrete, decimal pesoEmKg, decimal distanciaEmKm)
         {
             Validar(pesoEmKg, distanciaEmKm);
-
             ModalidadeFrete = modalidadeFrete;
-            CalcularValor(pesoEmKg, distanciaEmKm);
-            CalcularPrazoEntrega();
+            PesoEmKg = pesoEmKg;
+            DistanciaEmKm = distanciaEmKm;
         }
 
-        protected abstract decimal TaxaFixa { get; }
         public ModalidadeFrete ModalidadeFrete { get; }
-        public decimal Valor { get; protected set; }
-        public PrazoEntrega PrazoEntrega { get; protected set; }
-
-        protected abstract void CalcularValor(decimal pesoEmKg, decimal distanciaemKm);
-        protected abstract void CalcularPrazoEntrega();
+        public decimal PesoEmKg { get; }
+        public decimal DistanciaEmKm { get; }
+        protected abstract decimal TaxaFixa { get; }
+        public abstract decimal Valor { get; }
+        public abstract PrazoEntrega PrazoEntrega { get; }
 
         private void Validar(decimal pesoEmKg, decimal distanciaEmKm)
         {

@@ -8,16 +8,8 @@ namespace CalculoFrete.Domain.ValueObjects
 
         public FreteNormal(decimal pesoEmKg, decimal distanciaEmKm) : base(ModalidadeFrete.Normal, pesoEmKg, distanciaEmKm) { }
 
-        protected override void CalcularValor(decimal pesoEmKg, decimal distanciaemKm)
-        {
-            Valor = (pesoEmKg * 1.2M) + (distanciaemKm * 0.5M) + TaxaFixa;
-        }
+        public override decimal Valor => (PesoEmKg * 1.2M) + (DistanciaEmKm * 0.5M) + TaxaFixa;
 
-        protected override void CalcularPrazoEntrega()
-        {
-            PrazoEntrega = new PrazoEntrega(5, 8);
-        }
+        public override PrazoEntrega PrazoEntrega => new PrazoEntrega(5, 8);
     }
 }
-
-

@@ -11,22 +11,21 @@ namespace CalculoFrete.Domain.ValueObjects
         {
             ValidarData(dataAgendamento);
             DataAgendamento = dataAgendamento;
-            CalcularPrazoEntrega();
         }
 
         protected override decimal TaxaFixa => 7;
         protected DateOnly DataAgendamento { get; set; }
 
-        protected override void CalcularPrazoEntrega()
+        public override PrazoEntrega PrazoEntrega
         {
-            var numeroDiasParaEntrega = DataAgendamento.ToDateTime(TimeOnly.MinValue) - DateTime.Now.Date;
-            PrazoEntrega = new PrazoEntrega(numeroDiasParaEntrega.Days, numeroDiasParaEntrega.Days);
+            get
+            {
+                var numeroDiasParaEntrega = DataAgendamento.ToDateTime(TimeOnly.MinValue) - DateTime.Now.Date;
+                return new PrazoEntrega(numeroDiasParaEntrega.Days, numeroDiasParaEntrega.Days);
+            }
         }
 
-        protected override void CalcularValor(decimal pesoEmKg, decimal distanciaemKm)
-        {
-            Valor = (pesoEmKg * 1.5M) + (distanciaemKm * 0.6M) + TaxaFixa;
-        }
+        public override decimal Valor => (PesoEmKg * 1.5M) + (DistanciaEmKm * 0.6M) + TaxaFixa;
 
         private void ValidarData(DateOnly dataAgendamento)
         {
