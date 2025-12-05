@@ -11,6 +11,8 @@ builder.Services.RegisterServices();
 
 var app = builder.Build();
 
+app.SeedData();
+
 if (app.Environment.IsDevelopment())
 {
     app.UsarSwagger();
