@@ -1,6 +1,8 @@
-﻿namespace CalculoFrete.Domain
+﻿using CalculoFrete.Core.Domain;
+
+namespace CalculoFrete.Domain
 {
-    public class Pedido
+    public class Pedido : Entity
     {
         private List<ItemPedido> _items;
 
@@ -9,10 +11,9 @@
             _items = new List<ItemPedido>();
         }
 
-        public Guid Id { get; set; }
-        public Guid ClienteId { get; set; }
-        public Guid EnderecoEntregaId { get; set; }
-        public EnderecoEntrega? EnderecoEntrega { get; set; }
+        public Guid ClienteId { get; private set; }
+        public Guid EnderecoEntregaId { get; private set; }
+        public EnderecoEntrega? EnderecoEntrega { get; private set; }
         public IReadOnlyCollection<ItemPedido> Items => _items.AsReadOnly();
 
     }

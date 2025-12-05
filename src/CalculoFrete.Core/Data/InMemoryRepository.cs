@@ -6,14 +6,16 @@ namespace CalculoFrete.Core.Data
     {
         protected readonly Dictionary<Guid, T> _storage = new();
 
-        public void Adicionar(T entity)
+        public Task Adicionar(T entity)
         {
             _storage.Add(entity.Id, entity);
+            return Task.FromResult(entity);
         }
 
-        public void Atualizar(T entity)
+        public Task Atualizar(T entity)
         {
             _storage[entity.Id] = entity;
+            return Task.FromResult(entity);
         }
 
         public Task<T?> ObterPorIdAsync(Guid id)
@@ -26,9 +28,10 @@ namespace CalculoFrete.Core.Data
             return Task.FromResult(_storage.Select(x => x.Value));
         }
 
-        public void Remover(Guid id)
+        public Task Remover(T entity)
         {
-            _storage.Remove(id);
+            _storage.Remove(entity.Id);
+            return Task.FromResult(entity);
         }
 
         public void Dispose()

@@ -1,17 +1,19 @@
+using CalculoFrete.Api.Configurations;
+using CalculoFrete.Api.Configurations.AutoMapper;
+using CalculoFrete.Core.Filters;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
-builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+builder.Services.AddControllers(options => options.Filters.Add<ExceptionFilter>());
+builder.AddSwagger(); ;
+builder.AddAutoMapper();
+builder.Services.RegisterServices();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.UsarSwagger();
 }
 
 app.UseHttpsRedirection();

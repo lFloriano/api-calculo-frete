@@ -6,8 +6,8 @@ namespace CalculoFrete.Core.Data
     {
         Task<T?> ObterPorIdAsync(Guid id);
         Task<IEnumerable<T>> ObterTodosAsync();
-        void Adicionar(T entity);
-        void Atualizar(T entity);
-        void Remover(Guid id);
+        Task Adicionar(T entity);
+        Task Atualizar(T entity);
+        Task Remover(T entity);
     }
 }
