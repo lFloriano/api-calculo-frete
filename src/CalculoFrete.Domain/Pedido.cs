@@ -7,11 +7,12 @@ namespace CalculoFrete.Domain
     {
         private List<ItemPedido> _items;
 
-        public Pedido(Guid clienteId, DateTime dataCriacao)
+        public Pedido(Guid clienteId, DateTime dataCriacao, Cep cepDestino)
         {
             _items = new List<ItemPedido>();
             ClienteId = clienteId;
             DataCriacao = dataCriacao;
+            CepDestino = cepDestino;
         }
 
         public Pedido(Guid clienteId, IEnumerable<ItemPedido> itens)
