@@ -7,10 +7,11 @@ namespace CalculoFrete.Domain
     {
         private List<ItemPedido> _items;
 
-        public Pedido(Guid clienteId)
+        public Pedido(Guid clienteId, DateTime dataCriacao)
         {
             _items = new List<ItemPedido>();
             ClienteId = clienteId;
+            DataCriacao = dataCriacao;
         }
 
         public Pedido(Guid clienteId, IEnumerable<ItemPedido> itens)
@@ -24,6 +25,7 @@ namespace CalculoFrete.Domain
         public Guid ClienteId { get; private set; }
         public decimal ValorFrete => Itens.Sum(x => x.Frete.Valor);
         public Cep CepDestino { get; private set; }
+        public DateTime DataCriacao { get; private set; }
         public IReadOnlyCollection<ItemPedido> Itens => _items.AsReadOnly();
 
         public void AtualizarCepDestino(Cep novoCep)

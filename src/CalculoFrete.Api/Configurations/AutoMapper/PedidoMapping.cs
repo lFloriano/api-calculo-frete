@@ -24,7 +24,7 @@ namespace CalculoFrete.Api.Configurations.AutoMapper
                     ModalidadeFrete = src.ModalidadeFrete,
                     Valor = src.Frete.Valor,
                     PrazoEntrega = src.ModalidadeFrete == ModalidadeFrete.Agendado ?
-                        src.DataAgendamento.Value.ToString("dd/MM/yyyy") :
+                        src.DataAgendamento.Value.ToString("yyyy-MM-dd") :
                         $"De {src.Frete.PrazoEntrega.NumeroMinimoDias} a {src.Frete.PrazoEntrega.NumeroMaximoDias} dias"
                 }));
 

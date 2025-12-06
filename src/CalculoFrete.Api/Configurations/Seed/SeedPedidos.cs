@@ -13,7 +13,7 @@ namespace CalculoFrete.Api.Configurations.Seed
 
             for (int i = 1; i <= 3; i++)
             {
-                var pedido = new Pedido(Guid.NewGuid());
+                var pedido = new Pedido(Guid.NewGuid(), DateTime.Now);
                 pedido.AtualizarCepDestino(new Cep($"00000{i}00"));
                 var itensPedido = CriarItensPedido(pedido.Id, idsProdutos);
                 pedido.AtualizarItens(itensPedido);

@@ -55,7 +55,7 @@ namespace CalculoFrete.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            var pedido = new Pedido(model.ClienteId);
+            var pedido = new Pedido(model.ClienteId, DateTime.Now);
             var itensPedido = model.Itens.Select(item => new ItemPedido(pedido.Id, item.ProdutoId, item.FreteSelecionado.ModalidadeFrete, item.FreteSelecionado.DataAgendamento));
             pedido.AtualizarItens(itensPedido);
             pedido = await _pedidoService.Adicionar(pedido);
@@ -100,7 +100,7 @@ namespace CalculoFrete.Api.Controllers
                 return BadRequest(model);
             }
 
-            var pedido = new Pedido(model.ClienteId);
+            var pedido = new Pedido(model.ClienteId, DateTime.Now);
             var itensPedido = model.Itens.Select(item => new ItemPedido(pedido.Id, item.ProdutoId, item.FreteSelecionado.ModalidadeFrete, item.FreteSelecionado.DataAgendamento));
             pedido.AtualizarItens(itensPedido);
             var freteDeCadaItem = await _pedidoService.CalcularFreteDoPedido(pedido);
