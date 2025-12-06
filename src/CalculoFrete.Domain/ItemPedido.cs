@@ -6,14 +6,16 @@ namespace CalculoFrete.Domain
 {
     public class ItemPedido : Entity
     {
-        public ItemPedido(Guid produtoId, ModalidadeFrete modalidadeFrete, DateOnly? dataAgendamento = null)
+        public ItemPedido(Guid pedidoId, Guid produtoId, ModalidadeFrete modalidadeFrete, DateOnly? dataAgendamento = null)
         {
             ProdutoId = produtoId;
+            PedidoId = pedidoId;
             ModalidadeFrete = modalidadeFrete;
             DataAgendamento = modalidadeFrete == ModalidadeFrete.Agendado ? dataAgendamento : null;
         }
 
         public Guid ProdutoId { get; private set; }
+        public Guid PedidoId { get; private set; }
         public ModalidadeFrete ModalidadeFrete { get; private set; }
         public DateOnly? DataAgendamento { get; private set; }
         public Frete Frete { get; private set; }

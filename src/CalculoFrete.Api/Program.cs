@@ -1,5 +1,6 @@
 using CalculoFrete.Api.Configurations;
 using CalculoFrete.Api.Configurations.AutoMapper;
+using CalculoFrete.Api.Configurations.Seed;
 using CalculoFrete.Core.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,11 +15,10 @@ builder.Services.RegisterServices();
 
 var app = builder.Build();
 
-app.SeedData();
-
 if (app.Environment.IsDevelopment())
 {
     app.UsarSwagger();
+    app.Seed();
 }
 
 app.UseHttpsRedirection();

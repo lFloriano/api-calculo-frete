@@ -64,7 +64,7 @@ namespace CalculoFrete.Domain.Services
             foreach (var item in pedido.Itens)
             {
                 var distanciaEmKm = await _freteService.CalcularDistanciaEmKm(pedido.CepDestino, item.Produto.CepCentroDistribuicao);
-                item.CalcularFrete(distanciaEmKm, item.Produto.Peso, item.DataAgendamento);
+                item.CalcularFrete(distanciaEmKm, item.Produto.PesoEmKg, item.DataAgendamento);
             }
 
             return pedido.Itens;
