@@ -11,9 +11,12 @@ namespace CalculoFrete.Api.Configurations
             {
                 options.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "Desafio Técnico - API Para Cálculo de Frete",
-                    Version = "v1"
+                    Title = "Desafio Técnico - API de Pedidos",
+                    Version = "v1",
+                    Description = "Esta API Permite o CRUD de Pedidos e Cálculo de Frete"
                 });
+
+                options.EnableAnnotations();
             });
         }
 

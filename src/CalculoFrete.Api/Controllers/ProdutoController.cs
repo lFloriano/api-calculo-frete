@@ -2,6 +2,7 @@
 using CalculoFrete.Api.Models;
 using CalculoFrete.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace CalculoFrete.Api.Controllers
 {
@@ -21,6 +22,7 @@ namespace CalculoFrete.Api.Controllers
         [HttpGet("{id:guid}")]
         [ProducesResponseType(typeof(ConsultarProdutoVm), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [SwaggerOperation(Summary = "Obtém produto por id")]
         public async Task<IActionResult> ObterPorId([FromRoute] Guid id)
         {
             var produto = await _produtoService.ObterPorIdAsync(id);
@@ -34,6 +36,7 @@ namespace CalculoFrete.Api.Controllers
         [HttpGet()]
         [ProducesResponseType(typeof(IEnumerable<ConsultarProdutoVm>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [SwaggerOperation(Summary = "Obtém todos os produtos cadastrados")]
         public async Task<IActionResult> ObterTodos()
         {
             var produtos = await _produtoService.ObterTodosAsync();

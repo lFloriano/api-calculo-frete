@@ -3,6 +3,7 @@ using CalculoFrete.Api.Models;
 using CalculoFrete.Domain;
 using CalculoFrete.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace CalculoFrete.Api.Controllers
 {
@@ -22,6 +23,7 @@ namespace CalculoFrete.Api.Controllers
         [HttpGet("{id:guid}")]
         [ProducesResponseType(typeof(ConsultarPedidoVm), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [SwaggerOperation(Summary = "Obtém pedido por id")]
         public async Task<IActionResult> ObterPorId([FromRoute] Guid id)
         {
             var pedido = await _pedidoService.ObterCompletoPorIdAsync(id);
@@ -35,6 +37,7 @@ namespace CalculoFrete.Api.Controllers
         [HttpGet()]
         [ProducesResponseType(typeof(IEnumerable<ConsultarPedidoVm>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [SwaggerOperation(Summary = "Obtém todos os pedidos cadastrados")]
         public async Task<IActionResult> ObterTodos()
         {
             var pedidos = await _pedidoService.ObterTodosAsync();
@@ -48,6 +51,7 @@ namespace CalculoFrete.Api.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [SwaggerOperation(Summary = "Realiza um novo pedido", Description = "Permite a realização de um novo pedido com um ou mais produtos")]
         public async Task<IActionResult> Adicionar([FromBody] AdicionarPedidoVm model)
         {
             if (!ModelState.IsValid)
@@ -65,6 +69,7 @@ namespace CalculoFrete.Api.Controllers
         [HttpPatch("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [SwaggerOperation(Summary = "Atualiza um pedido", Description = "Permite a atualização do CEP de entrega do pedido")]
         public async Task<IActionResult> Atualizar([FromRoute] Guid id, [FromBody] AtualizarPedidoVm model)
         {
             if (!ModelState.IsValid)
@@ -84,6 +89,7 @@ namespace CalculoFrete.Api.Controllers
         [HttpDelete("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [SwaggerOperation(Summary = "Exclui um pedido")]
         public async Task<IActionResult> Remover([FromRoute] Guid id)
         {
             var pedido = await _pedidoService.ObterPorIdAsync(id);
@@ -98,6 +104,7 @@ namespace CalculoFrete.Api.Controllers
         [HttpPost("calcular-frete")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [SwaggerOperation(Summary = "Calculo de Frete", Description = "Permite calcular o frete para um pedido ainda não finalizado")]
         public async Task<IActionResult> CalcularFrete([FromBody] CalcularFretePedidoVm model)
         {
             if (!ModelState.IsValid)
