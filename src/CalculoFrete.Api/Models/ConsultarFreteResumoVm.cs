@@ -8,9 +8,6 @@ namespace CalculoFrete.Api.Models
         public ModalidadeFrete ModalidadeFrete { get; set; }
         public string? DescricaoFrete => ModalidadeFrete.GetDisplayName();
         public decimal Valor { get; set; }
-        public int NumeroMinimoDias { get; set; }
-        public int NumeroMaximoDias { get; set; }
-        public DateOnly? DataAgendamento { get; set; }
-
+        public string? PrazoEntrega { get; set; }
     }
 }

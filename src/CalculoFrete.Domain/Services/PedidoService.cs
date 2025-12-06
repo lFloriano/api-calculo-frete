@@ -26,7 +26,6 @@ namespace CalculoFrete.Domain.Services
             if (pedidoJaExiste)
                 throw new InvalidOperationException("O pedido já existe no sistema");
 
-            await ValidarItensDoPedido(pedido.Itens);
             await CalcularFreteDoPedido(pedido);
             await _pedidoRepository.Adicionar(pedido);
             return pedido;
@@ -78,6 +77,8 @@ namespace CalculoFrete.Domain.Services
 
         public async Task<IEnumerable<ItemPedido>> CalcularFreteDoPedido(Pedido pedido)
         {
+            await ValidarItensDoPedido(pedido?.Itens);
+
             foreach (var item in pedido.Itens)
             {
                 var produto = await _produtoService.ObterPorIdAsync(item.ProdutoId);

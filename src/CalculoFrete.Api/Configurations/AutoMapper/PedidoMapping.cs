@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CalculoFrete.Api.Models;
 using CalculoFrete.Domain;
+using CalculoFrete.Domain.Enums;
 using CalculoFrete.Domain.ValueObjects;
 
 namespace CalculoFrete.Api.Configurations.AutoMapper
@@ -18,17 +19,25 @@ namespace CalculoFrete.Api.Configurations.AutoMapper
             CreateMap<ItemPedido, ConsultarItemPedidoResumidoVm>()
                 .ForMember(dest => dest.Frete, opt => opt.MapFrom(src => new ConsultarFreteResumoVm()
                 {
-                    DataAgendamento = src.DataAgendamento,
                     ModalidadeFrete = src.ModalidadeFrete,
-                    NumeroMinimoDias = src.Frete.PrazoEntrega.NumeroMinimoDias,
-                    NumeroMaximoDias = src.Frete.PrazoEntrega.NumeroMaximoDias,
-                    Valor = src.Frete.Valor
+                    Valor = src.Frete.Valor,
+                    PrazoEntrega = src.ModalidadeFrete == ModalidadeFrete.Agendado ?
+                        src.DataAgendamento.Value.ToString("dd/MM/yyyy") :
+                        $"De {src.Frete.PrazoEntrega.NumeroMinimoDias} a {src.Frete.PrazoEntrega.NumeroMaximoDias} dias"
+                }));
+
+            CreateMap<ItemPedido, CalcularFreteItemPedidoResumidoVm>()
+                .ForMember(dest => dest.Frete, opt => opt.MapFrom(src => new ConsultarFreteResumoVm()
+                {
+                    ModalidadeFrete = src.ModalidadeFrete,
+                    Valor = src.Frete.Valor,
+                    PrazoEntrega = src.ModalidadeFrete == ModalidadeFrete.Agendado ?
+                        src.DataAgendamento.Value.ToString("dd/MM/yyyy") :
+                        $"De {src.Frete.PrazoEntrega.NumeroMinimoDias} a {src.Frete.PrazoEntrega.NumeroMaximoDias} dias"
                 }));
 
             // Viewmodel -> domain
-            CreateMap<AdicionarPedidoVm, Pedido>();
-            CreateMap<AdicionarPedidoItemPedidoVm, ItemPedido>();
-            CreateMap<AdicionarPedidoFreteVm, Frete>();
+
         }
     }
 }

@@ -93,17 +93,25 @@ namespace CalculoFrete.Api.Controllers
         [HttpPost("calcular-frete")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CalcularFrete([FromBody] AdicionarPedidoVm model)
+        public async Task<IActionResult> CalcularFrete([FromBody] CalcularFretePedidoVm model)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(model);
             }
 
-            var pedido = _mapper.Map<Pedido>(model);
-            var freteCalculado = await _pedidoService.CalcularFreteDoPedido(pedido);
+            var pedido = new Pedido(model.ClienteId);
+            var itensPedido = model.Itens.Select(item => new ItemPedido(pedido.Id, item.ProdutoId, item.FreteSelecionado.ModalidadeFrete, item.FreteSelecionado.DataAgendamento));
+            pedido.AtualizarItens(itensPedido);
+            var freteDeCadaItem = await _pedidoService.CalcularFreteDoPedido(pedido);
 
-            return Ok(freteCalculado);
+            var resumo = new
+            {
+                ValorTotal = freteDeCadaItem.Sum(x => x?.Frete?.Valor),
+                Itens = _mapper.Map<IEnumerable<CalcularFreteItemPedidoResumidoVm>>(freteDeCadaItem)
+            };
+
+            return Ok(resumo);
         }
     }
 }
