@@ -81,6 +81,11 @@ namespace CalculoFrete.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Remover([FromRoute] Guid id)
         {
+            var pedido = await _pedidoService.ObterPorIdAsync(id);
+
+            if (pedido == null)
+                return NotFound();
+
             await _pedidoService.Remover(id);
             return Ok();
         }

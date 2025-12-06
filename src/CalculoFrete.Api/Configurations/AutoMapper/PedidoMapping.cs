@@ -11,8 +11,19 @@ namespace CalculoFrete.Api.Configurations.AutoMapper
         {
             // Domain -> viewmodel
             CreateMap<Pedido, ConsultarPedidoVm>();
-            CreateMap<ItemPedido, ConsultarItemPedidoVm>();
+            //CreateMap<ItemPedido, ConsultarItemPedidoVm>();
             CreateMap<Produto, ConsultarProdutoVm>();
+            CreateMap<Frete, ConsultarFreteVm>();
+            CreateMap<PrazoEntrega, ConsultarPrazoEntregaVm>();
+            CreateMap<ItemPedido, ConsultarItemPedidoResumidoVm>()
+                .ForMember(dest => dest.Frete, opt => opt.MapFrom(src => new ConsultarFreteResumoVm()
+                {
+                    DataAgendamento = src.DataAgendamento,
+                    ModalidadeFrete = src.ModalidadeFrete,
+                    NumeroMinimoDias = src.Frete.PrazoEntrega.NumeroMinimoDias,
+                    NumeroMaximoDias = src.Frete.PrazoEntrega.NumeroMaximoDias,
+                    Valor = src.Frete.Valor
+                }));
 
             // Viewmodel -> domain
             CreateMap<AdicionarPedidoVm, Pedido>();

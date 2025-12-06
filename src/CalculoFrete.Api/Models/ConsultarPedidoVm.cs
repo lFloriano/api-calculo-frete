@@ -1,5 +1,4 @@
-﻿using CalculoFrete.Domain;
-using CalculoFrete.Domain.ValueObjects;
+﻿using CalculoFrete.Domain.ValueObjects;
 
 namespace CalculoFrete.Api.Models
 {
@@ -9,6 +8,6 @@ namespace CalculoFrete.Api.Models
         public Guid ClienteId { get; set; }
         public decimal ValorFrete { get; set; }
         public Cep CepDestino { get; set; }
-        public IReadOnlyCollection<ConsultarItemPedidoVm> Itens { get; set; }
+        public IReadOnlyCollection<ConsultarItemPedidoResumidoVm> Itens { get; set; }
     }
 }

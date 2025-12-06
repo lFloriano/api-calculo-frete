@@ -3,14 +3,14 @@ using Microsoft.OpenApi;
 
 namespace CalculoFrete.Api.Models
 {
-    public record ConsultarItemPedidoVm
+    public record ConsultarFreteResumoVm
     {
-        public Guid Id { get; set; }
-        public Guid ProdutoId { get; set; }
         public ModalidadeFrete ModalidadeFrete { get; set; }
         public string? DescricaoFrete => ModalidadeFrete.GetDisplayName();
+        public decimal Valor { get; set; }
+        public int NumeroMinimoDias { get; set; }
+        public int NumeroMaximoDias { get; set; }
         public DateOnly? DataAgendamento { get; set; }
-        public ConsultarFreteVm Frete { get; set; }
-        public ConsultarProdutoVm Produto { get; set; }
+
     }
 }
