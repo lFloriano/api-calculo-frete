@@ -59,7 +59,7 @@ namespace CalculoFrete.Api.Controllers
             var itensPedido = model.Itens.Select(item => new ItemPedido(pedido.Id, item.ProdutoId, item.FreteSelecionado.ModalidadeFrete, item.FreteSelecionado.DataAgendamento));
             pedido.AtualizarItens(itensPedido);
             pedido = await _pedidoService.Adicionar(pedido);
-            return CreatedAtAction(nameof(ObterPorId), new { id = pedido.Id }, pedido);
+            return CreatedAtAction(nameof(ObterPorId), new { id = pedido.Id }, _mapper.Map<ConsultarPedidoVm>(pedido));
         }
 
         [HttpPatch("{id:guid}")]
@@ -70,6 +70,11 @@ namespace CalculoFrete.Api.Controllers
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+
+            if (id != model.Id)
+            {
+                return BadRequest("O id da url não corresponde ao id no payload");
             }
 
             var pedido = await _pedidoService.Atualizar(model.Id, model.NovoCep);
@@ -87,7 +92,7 @@ namespace CalculoFrete.Api.Controllers
                 return NotFound();
 
             await _pedidoService.Remover(id);
-            return Ok();
+            return NoContent();
         }
 
         [HttpPost("calcular-frete")]

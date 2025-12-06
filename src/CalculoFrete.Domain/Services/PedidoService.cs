@@ -33,7 +33,7 @@ namespace CalculoFrete.Domain.Services
 
         public async Task<Pedido> Atualizar(Guid id, Cep novoCep)
         {
-            var pedido = await _pedidoRepository.ObterPorIdAsync(id) ??
+            var pedido = await ObterCompletoPorIdAsync(id) ??
                 throw new InvalidOperationException("Pedido não encontrado para atualização");
 
             pedido.AtualizarCepDestino(novoCep);
