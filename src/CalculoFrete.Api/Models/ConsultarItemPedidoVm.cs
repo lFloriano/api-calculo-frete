@@ -5,6 +5,7 @@ namespace CalculoFrete.Api.Models
 {
     public record ConsultarItemPedidoVm
     {
+        public Guid Id { get; set; }
         public Guid ProdutoId { get; set; }
         public ModalidadeFrete ModalidadeFrete { get; set; }
         public DateOnly? DataAgendamento { get; set; }

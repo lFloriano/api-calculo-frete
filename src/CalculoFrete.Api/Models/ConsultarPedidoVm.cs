@@ -5,8 +5,8 @@ namespace CalculoFrete.Api.Models
 {
     public record ConsultarPedidoVm
     {
+        public Guid Id { get; set; }
         public Guid ClienteId { get; set; }
-        public Guid EnderecoEntregaId { get; set; }
         public decimal ValorFrete { get; set; }
         public Cep CepDestino { get; set; }
         public IReadOnlyCollection<ConsultarItemPedidoVm> Itens { get; set; }

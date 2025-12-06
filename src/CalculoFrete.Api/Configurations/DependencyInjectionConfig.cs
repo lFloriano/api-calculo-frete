@@ -8,7 +8,7 @@ namespace CalculoFrete.Api.Configurations
     {
         public static void RegisterServices(this IServiceCollection services)
         {
-            services.AddScoped<IRepository<Pedido>, InMemoryRepository<Pedido>>();
+            services.AddSingleton<IRepository<Pedido>, InMemoryRepository<Pedido>>();
             services.AddScoped<IPedidoService, PedidoService>();
             services.AddScoped<IFreteService, FreteService>();
         }

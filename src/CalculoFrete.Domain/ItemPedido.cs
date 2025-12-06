@@ -6,9 +6,11 @@ namespace CalculoFrete.Domain
 {
     public class ItemPedido : Entity
     {
-        public ItemPedido(Guid produtoId, ModalidadeFrete modalidadeFrete)
+        public ItemPedido(Guid produtoId, ModalidadeFrete modalidadeFrete, DateOnly? dataAgendamento = null)
         {
             ProdutoId = produtoId;
+            ModalidadeFrete = modalidadeFrete;
+            DataAgendamento = modalidadeFrete == ModalidadeFrete.Agendado ? dataAgendamento : null;
         }
 
         public Guid ProdutoId { get; private set; }

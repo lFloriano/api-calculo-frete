@@ -4,7 +4,10 @@ using CalculoFrete.Core.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers(options => options.Filters.Add<ExceptionFilter>());
+builder.Services
+    .AddControllers(options => options.Filters.Add<ExceptionFilter>())
+    .AddJsonOptions(options => { options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull; });
+
 builder.AddSwagger(); ;
 builder.AddAutoMapper();
 builder.Services.RegisterServices();

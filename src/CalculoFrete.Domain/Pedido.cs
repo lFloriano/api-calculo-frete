@@ -7,7 +7,7 @@ namespace CalculoFrete.Domain
     {
         private List<ItemPedido> _items;
 
-        public Pedido(Guid clienteId, Guid enderecoEntregaId)
+        public Pedido(Guid clienteId)
         {
             _items = new List<ItemPedido>();
             ClienteId = clienteId;
@@ -18,9 +18,15 @@ namespace CalculoFrete.Domain
         public Cep CepDestino { get; private set; }
         public IReadOnlyCollection<ItemPedido> Itens => _items.AsReadOnly();
 
-        public void AtualizarCep(Cep novoCep)
+        public void AtualizarCepEntrega(Cep novoCep)
         {
             CepDestino = novoCep ?? throw new ArgumentNullException(nameof(Cep));
+        }
+
+        public void AtualizarItens(IEnumerable<ItemPedido> itens)
+        {
+            if (itens != null)
+                _items.AddRange(itens);
         }
 
     }

@@ -33,7 +33,7 @@ namespace CalculoFrete.Domain.Services
             var pedido = await _pedidoRepository.ObterPorIdAsync(id) ??
                 throw new InvalidOperationException("Pedido não encontrado para atualização");
 
-            pedido.AtualizarCep(novoCep);
+            pedido.AtualizarCepEntrega(novoCep);
             await _pedidoRepository.Atualizar(pedido);
             return pedido;
         }
