@@ -1,6 +1,7 @@
 using CalculoFrete.Core.Data;
 using CalculoFrete.Domain;
 using CalculoFrete.Domain.Enums;
+using CalculoFrete.Domain.ValueObjects;
 
 namespace CalculoFrete.Api.Configurations.Seed
 {
@@ -13,6 +14,7 @@ namespace CalculoFrete.Api.Configurations.Seed
             for (int i = 1; i <= 3; i++)
             {
                 var pedido = new Pedido(Guid.NewGuid());
+                pedido.AtualizarCepDestino(new Cep($"00000{i}00"));
                 var itensPedido = CriarItensPedido(pedido.Id, idsProdutos);
                 pedido.AtualizarItens(itensPedido);
 

@@ -11,11 +11,13 @@ namespace CalculoFrete.Api.Configurations.AutoMapper
         public PedidoMappings()
         {
             // Domain -> viewmodel
-            CreateMap<Pedido, ConsultarPedidoVm>();
-            //CreateMap<ItemPedido, ConsultarItemPedidoVm>();
+            CreateMap<Pedido, ConsultarPedidoVm>()
+                .ForMember(dest => dest.CepDestino, opt => opt.MapFrom(src => src.CepDestino.Numero));
+
             CreateMap<Produto, ConsultarProdutoVm>();
             CreateMap<Frete, ConsultarFreteVm>();
             CreateMap<PrazoEntrega, ConsultarPrazoEntregaVm>();
+
             CreateMap<ItemPedido, ConsultarItemPedidoResumidoVm>()
                 .ForMember(dest => dest.Frete, opt => opt.MapFrom(src => new ConsultarFreteResumoVm()
                 {

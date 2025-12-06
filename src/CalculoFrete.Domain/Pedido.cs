@@ -26,7 +26,7 @@ namespace CalculoFrete.Domain
         public Cep CepDestino { get; private set; }
         public IReadOnlyCollection<ItemPedido> Itens => _items.AsReadOnly();
 
-        public void AtualizarCepEntrega(Cep novoCep)
+        public void AtualizarCepDestino(Cep novoCep)
         {
             CepDestino = novoCep ?? throw new ArgumentNullException(nameof(Cep));
         }

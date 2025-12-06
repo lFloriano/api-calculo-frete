@@ -7,7 +7,7 @@ namespace CalculoFrete.Api.Models
         public Guid Id { get; set; }
         public Guid ClienteId { get; set; }
         public decimal ValorFrete { get; set; }
-        public Cep CepDestino { get; set; }
+        public string CepDestino { get; set; }
         public IReadOnlyCollection<ConsultarItemPedidoResumidoVm> Itens { get; set; }
     }
 }
