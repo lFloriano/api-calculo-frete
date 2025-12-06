@@ -67,7 +67,7 @@ namespace CalculoFrete.Api.Controllers
         }
 
         [HttpPatch("{id:guid}")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [SwaggerOperation(Summary = "Atualiza um pedido", Description = "Permite a atualização do CEP de entrega do pedido")]
         public async Task<IActionResult> Atualizar([FromRoute] Guid id, [FromBody] AtualizarPedidoVm model)
@@ -89,6 +89,7 @@ namespace CalculoFrete.Api.Controllers
         [HttpDelete("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [SwaggerOperation(Summary = "Exclui um pedido")]
         public async Task<IActionResult> Remover([FromRoute] Guid id)
         {
@@ -102,7 +103,7 @@ namespace CalculoFrete.Api.Controllers
         }
 
         [HttpPost("calcular-frete")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(CalcularFreteResumo), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [SwaggerOperation(Summary = "Calculo de Frete", Description = "Permite calcular o frete para um pedido ainda não finalizado")]
         public async Task<IActionResult> CalcularFrete([FromBody] CalcularFretePedidoVm model)
@@ -117,7 +118,7 @@ namespace CalculoFrete.Api.Controllers
             pedido.AtualizarItens(itensPedido);
             var freteDeCadaItem = await _pedidoService.CalcularFreteDoPedido(pedido);
 
-            var resumo = new
+            var resumo = new CalcularFreteResumo()
             {
                 ValorTotal = freteDeCadaItem.Sum(x => x?.Frete?.Valor),
                 CepDestino = model?.CepDestino?.Numero,
