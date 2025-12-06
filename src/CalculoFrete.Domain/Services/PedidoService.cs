@@ -6,12 +6,14 @@ namespace CalculoFrete.Domain.Services
     public class PedidoService : IPedidoService
     {
         readonly IRepository<Pedido> _pedidoRepository;
+        readonly IProdutoService _produtoService;
         readonly IFreteService _freteService;
 
-        public PedidoService(IRepository<Pedido> pedidoRepository, IFreteService freteService)
+        public PedidoService(IRepository<Pedido> pedidoRepository, IFreteService freteService, IProdutoService produtoService)
         {
             _pedidoRepository = pedidoRepository;
             _freteService = freteService;
+            _produtoService = produtoService;
         }
 
         public async Task<Pedido> Adicionar(Pedido pedido)
@@ -24,6 +26,7 @@ namespace CalculoFrete.Domain.Services
             if (pedidoJaExiste)
                 throw new InvalidOperationException("O pedido já existe no sistema");
 
+            await ValidarItensDoPedido(pedido.Itens);
             await _pedidoRepository.Adicionar(pedido);
             return pedido;
         }
@@ -65,6 +68,20 @@ namespace CalculoFrete.Domain.Services
             }
 
             return pedido.Itens;
+        }
+
+        private async Task ValidarItensDoPedido(IEnumerable<ItemPedido>? itens)
+        {
+            if (itens == null || !itens.Any())
+                throw new InvalidOperationException("O pedido não possui nenhum produto");
+
+            foreach (var item in itens)
+            {
+                var produto = await _produtoService.ObterPorIdAsync(item.ProdutoId);
+
+                if (produto == null)
+                    throw new InvalidOperationException("O pedido possui produto(s) inexistente(s)");
+            }
         }
     }
 }
