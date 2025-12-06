@@ -13,6 +13,14 @@ namespace CalculoFrete.Domain
             ClienteId = clienteId;
         }
 
+        public Pedido(Guid clienteId, IEnumerable<ItemPedido> itens)
+        {
+            ClienteId = clienteId;
+            _items = new List<ItemPedido>();
+            _items.AddRange(itens);
+        }
+
+
         public Guid ClienteId { get; private set; }
         public decimal ValorFrete => Itens.Sum(x => x.Frete.Valor);
         public Cep CepDestino { get; private set; }

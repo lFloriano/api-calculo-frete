@@ -41,5 +41,13 @@ namespace CalculoFrete.Domain
                     throw new NotImplementedException($"Cálculo não implementado para a modalidade de frete {ModalidadeFrete.ToString()}");
             }
         }
+
+        public void AtualizarProduto(Produto? produto)
+        {
+            if (produto == null)
+                return;
+
+            Produto = produto;
+        }
     }
 }

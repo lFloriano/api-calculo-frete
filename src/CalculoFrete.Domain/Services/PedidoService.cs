@@ -27,6 +27,7 @@ namespace CalculoFrete.Domain.Services
                 throw new InvalidOperationException("O pedido já existe no sistema");
 
             await ValidarItensDoPedido(pedido.Itens);
+            await CalcularFreteDoPedido(pedido);
             await _pedidoRepository.Adicionar(pedido);
             return pedido;
         }
@@ -46,6 +47,22 @@ namespace CalculoFrete.Domain.Services
             return await _pedidoRepository.ObterPorIdAsync(id);
         }
 
+        public async Task<Pedido?> ObterCompletoPorIdAsync(Guid id)
+        {
+            var pedido = await _pedidoRepository.ObterPorIdAsync(id);
+
+            if (pedido == null)
+                return null;
+
+            foreach (var item in pedido.Itens)
+            {
+                var produto = await _produtoService.ObterPorIdAsync(item.ProdutoId);
+                item.AtualizarProduto(produto);
+            }
+
+            return pedido;
+        }
+
         public async Task<IEnumerable<Pedido>> ObterTodosAsync()
         {
             return await _pedidoRepository.ObterTodosAsync();
@@ -63,8 +80,9 @@ namespace CalculoFrete.Domain.Services
         {
             foreach (var item in pedido.Itens)
             {
-                var distanciaEmKm = await _freteService.CalcularDistanciaEmKm(pedido.CepDestino, item.Produto.CepCentroDistribuicao);
-                item.CalcularFrete(distanciaEmKm, item.Produto.PesoEmKg, item.DataAgendamento);
+                var produto = await _produtoService.ObterPorIdAsync(item.ProdutoId);
+                var distanciaEmKm = await _freteService.CalcularDistanciaEmKm(pedido.CepDestino, produto.CepCentroDistribuicao);
+                item.CalcularFrete(distanciaEmKm, produto.PesoEmKg, item.DataAgendamento);
             }
 
             return pedido.Itens;

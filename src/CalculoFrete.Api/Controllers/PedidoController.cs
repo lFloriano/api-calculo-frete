@@ -24,7 +24,7 @@ namespace CalculoFrete.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> ObterPorId([FromRoute] Guid id)
         {
-            var pedido = await _pedidoService.ObterPorIdAsync(id);
+            var pedido = await _pedidoService.ObterCompletoPorIdAsync(id);
 
             if (pedido == null)
                 return NotFound();
@@ -50,12 +50,15 @@ namespace CalculoFrete.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Adicionar([FromBody] AdicionarPedidoVm model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var pedido = await _pedidoService.Adicionar(_mapper.Map<Pedido>(model));
+            var pedido = new Pedido(model.ClienteId);
+            var itensPedido = model.Itens.Select(item => new ItemPedido(pedido.Id, item.ProdutoId, item.FreteSelecionado.ModalidadeFrete, item.FreteSelecionado.DataAgendamento));
+            pedido.AtualizarItens(itensPedido);
+            pedido = await _pedidoService.Adicionar(pedido);
             return CreatedAtAction(nameof(ObterPorId), new { id = pedido.Id }, pedido);
         }
 
@@ -64,7 +67,7 @@ namespace CalculoFrete.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Atualizar([FromRoute] Guid id, [FromBody] AtualizarPedidoVm model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
